@@ -1,8 +1,8 @@
 const {
   databaseHost,
-  databaseUser,
-  databasePassword,
   databaseName,
+  databasePassword,
+  databaseUser,
 } = require('../config/index');
 
 module.exports = require('knex')({
@@ -12,16 +12,6 @@ module.exports = require('knex')({
     user: databaseUser,
     password: databasePassword,
     database: databaseName,
-    // pool: {
-    //   afterCreate: (conn, done) => {
-    //     conn.query('SET timezone="UTC";', err => {
-    //       if (err) {
-    //         done(err, conn);
-    //       } else {
-    //         console.log('DB connection successful');
-    //       }
-    //     });
-    //   },
-    // },
   },
+  pool: { min: 0, max: 7 },
 });
