@@ -1,12 +1,11 @@
 const knex = require('./config/knex');
 
-const objectifyRawPacket = row => ({ ...row });
+
 
 const getData = async () => {
   try {
-    const res = await knex('users').select('*');
-    const convertedResponse = res.map(objectifyRawPacket);
-    console.log(convertedResponse);
+    const res = await knex('users').where('id', 1);
+    console.log(JSON.parse(JSON.stringify(res)));
   } catch (error) {
     console.log(error);
   }

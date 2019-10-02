@@ -7,6 +7,7 @@ const {
 
 const RatingsType = require('./ratings');
 const UsersType = require('./users');
+const { userRelationship, ratingsRelationship } = require('../resolvers/shops');
 
 module.exports = new GraphQLObjectType({
   name: 'Shops',
@@ -15,11 +16,11 @@ module.exports = new GraphQLObjectType({
     name: { type: GraphQLString },
     user: {
       type: UsersType,
-      resolve: (parent, args) => getUser(parent, args),
+      resolve: (parent, args) => userRelationship(parent, args),
     },
     ratings: {
       type: new GraphQLList(RatingsType),
-      resolve: (parent, args) => getRatings(parent, args),
+      resolve: (parent, args) => ratingsRelationship(parent, args),
     },
   },
 });

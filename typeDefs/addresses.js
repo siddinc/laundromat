@@ -4,8 +4,8 @@ const {
   GraphQLFloat,
   GraphQLInt,
 } = require('graphql');
-const UsersType = require('./users');
 
+const UsersType = require('./users');
 const { userRelationship } = require('../resolvers/addresses');
 
 module.exports = new GraphQLObjectType({
