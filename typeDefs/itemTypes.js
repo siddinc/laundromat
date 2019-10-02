@@ -1,6 +1,5 @@
 const {
   GraphQLObjectType,
-  GraphQLInt,
   GraphQLString,
   GraphQLFloat,
 } = require('graphql');
@@ -8,7 +7,7 @@ const {
 module.exports = new GraphQLObjectType({
   name: 'ItemTypes',
   fields: {
-    type_id: { type: GraphQLInt },
+    type_id: { type: GraphQLString },
     name: { type: GraphQLString },
     ironing_price: { type: GraphQLFloat },
     dry_cleaning_price: { type: GraphQLFloat },

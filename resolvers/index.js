@@ -1,4 +1,4 @@
-const { getUsers, getUsersByPK } = require('../resolvers/users');
+const { getUsers, getUsersByPK, insertUsers, updateUsers, deleteUsers } = require('../resolvers/users');
 const { getAddresses, getAddressesByPK } = require('../resolvers/addresses');
 const { getShops, getShopsByPK } = require('../resolvers/shops');
 const { getRatings, getRatingsByPK } = require('../resolvers/ratings');
@@ -9,6 +9,9 @@ const { getAppointmentItems, getAppointmentItemsByPK } = require('../resolvers/a
 module.exports = {
   getUsers,
   getUsersByPK,
+  insertUsers,
+  updateUsers,
+  deleteUsers,
   getAddresses,
   getAddressesByPK,
   getShops,

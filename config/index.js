@@ -15,6 +15,7 @@ const config = {
   databaseUser: process.env.DATABASE_USER,
   databasePassword: process.env.DATABASE_PASSWORD,
   databaseName: process.env.DATABASE_NAME,
+  saltRounds: Number(process.env.SALT_ROUNDS),
 };
 
 module.exports = config;

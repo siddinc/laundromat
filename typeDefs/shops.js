@@ -12,7 +12,7 @@ const { userRelationship, ratingsRelationship } = require('../resolvers/shops');
 module.exports = new GraphQLObjectType({
   name: 'Shops',
   fields: {
-    user_id: { type: GraphQLInt },
+    user_id: { type: GraphQLString },
     name: { type: GraphQLString },
     user: {
       type: UsersType,

@@ -1,12 +1,12 @@
-const { GraphQLObjectType, GraphQLInt, GraphQLString } = require('graphql');
+const { GraphQLObjectType, GraphQLString } = require('graphql');
 
 module.exports = new GraphQLObjectType({
   name: 'Appointments',
   fields: {
-    appointment_id: { type: GraphQLInt },
-    user_id: { type: GraphQLInt },
-    shop_id: { type: GraphQLInt },
-    address_id: { type: GraphQLInt },
+    appointment_id: { type: GraphQLString },
+    user_id: { type: GraphQLString },
+    shop_id: { type: GraphQLString },
+    address_id: { type: GraphQLString },
     scheduled_for: { type: GraphQLString },
     created_at: { type: GraphQLString },
   },
