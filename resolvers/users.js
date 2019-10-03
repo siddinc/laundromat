@@ -2,27 +2,17 @@ const knexClient = require('../config/knex');
 const { generateRandomUUID, hashPassword } = require('../utils/utils');
 
 exports.getUsers = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT * FROM users;`);
+  const result = await knexClient.raw(`SELECT id, name, email, address_id, shop_id FROM users;`);
   return JSON.parse(JSON.stringify(result))[0];
 };
 
 exports.getUsersByPK = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT * FROM users WHERE id = '${args.id}';`);
-  return JSON.parse(JSON.stringify(result))[0][0];
-};
-
-exports.addressRelationship = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT * FROM addresses WHERE user_id = '${parent.id}';`);
-  return JSON.parse(JSON.stringify(result))[0][0];
-};
-
-exports.shopRelationship = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT * FROM shops WHERE user_id = '${parent.id}';`);
+  const result = await knexClient.raw(`SELECT id, name, email, address_id, shop_id FROM users WHERE id = '${args.id}';`);
   return JSON.parse(JSON.stringify(result))[0][0];
 };
 
 exports.insertUsers = async (parent, args) => {
-  const existingUser = await knexClient.raw(`SELECT id, name FROM users WHERE email = '${args.email}';`);
+  const existingUser = await knexClient.raw(`SELECT id FROM users WHERE email = '${args.email}';`);
 
   if(JSON.parse(JSON.stringify(existingUser))[0].length !== 0) {
     return `User already exists`;
@@ -35,7 +25,7 @@ exports.insertUsers = async (parent, args) => {
 };
 
 exports.updateUsers = async (parent, args) => {
-  const existingUser = await knexClient.raw(`SELECT id, name FROM users WHERE id = '${args.id}';`);
+  const existingUser = await knexClient.raw(`SELECT id FROM users WHERE id = '${args.id}';`);
 
   if(JSON.parse(JSON.stringify(existingUser))[0].length === 0) {
     return `User doesn't exist`;
@@ -54,7 +44,7 @@ exports.updateUsers = async (parent, args) => {
 };
 
 exports.deleteUsers = async (parent, args) => {
-  const existingUser = await knexClient.raw(`SELECT id, name FROM users WHERE id = '${args.id}';`);
+  const existingUser = await knexClient.raw(`SELECT id FROM users WHERE id = '${args.id}';`);
 
   if(JSON.parse(JSON.stringify(existingUser))[0].length === 0) {
     return `User doesn't exist`;

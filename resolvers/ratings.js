@@ -16,3 +16,41 @@ exports.getRatingsByPK = async (parent, args) => {
   }
   return JSON.parse(JSON.stringify(result))[0];
 };
+
+
+exports.insertRatings = async (parent, args) => {
+  if(args.user_id === args.shop_id) {
+    return "Shop owner can't give rating on own shop";
+  }
+
+  const existingRatings = await knexClient.raw(`SELECT user_id FROM ratings WHERE user_id = '${args.user_id}' AND shop_id = '${args.shop_id}';`);
+
+  if(JSON.parse(JSON.stringify(existingRatings))[0].length !== 0) {
+    return `Rating already exists`;
+  }
+
+  await knexClient.raw(`INSERT INTO ratings VALUES ('${args.shop_id}', '${args.shop_id}', ${args.score}, '${args.comment}');`);
+  return "New rating created successfully";
+};
+
+exports.updateRatings = async (parent, args) => {
+  const existingRatings = await knexClient.raw(`SELECT user_id FROM ratings WHERE user_id = '${args.user_id}' AND shop_id = '${args.shop_id}';`);
+
+  if(JSON.parse(JSON.stringify(existingRatings))[0].length === 0) {
+    return `Rating doesn't exist`;
+  }
+
+  await knexClient.raw(`UPDATE ratings SET comment = '${args.comment}' AND score = ${args.score} WHERE user_id = '${args.user_id}' AND shop_id = '${args.shop_id}';`);
+  return "Rating updated successfully";
+};
+
+exports.deleteRatings = async (parent, args) => {
+  const existingRatings = await knexClient.raw(`SELECT user_id FROM ratings WHERE user_id = '${args.user_id}' AND shop_id = '${args.shop_id}';`);
+
+  if(JSON.parse(JSON.stringify(existingRatings))[0].length === 0) {
+    return `Shop doesn't exist`;
+  }
+
+  await knexClient.raw(`DELETE FROM ratings WHERE user_id = '${args.user_id}' AND shop_id = '${args.shop_id}';`);
+  return "Rating deleted successfully";
+};

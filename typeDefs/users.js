@@ -7,14 +7,8 @@ module.exports = new GraphQLObjectType({
   name: 'Users',
   fields: {
     id: { type: GraphQLString },
-    // address: {
-    //   type: AddressesType,
-    //   resolve: (parent, args) => addressRelationship(parent, args),
-    // },
-    // shop: {
-    //   type: ShopsType,
-    //   resolve: (parent, args) => shopRelationship(parent, args),
-    // },
+    shop_id: { type: GraphQLString },
+    address_id: { type: GraphQLString },
     name: { type: GraphQLString },
     password: { type: GraphQLString },
     email: { type: GraphQLString },

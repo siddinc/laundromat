@@ -11,6 +11,6 @@ exports.getAddressesByPK = async (parent, args) => {
 };
 
 exports.userRelationship = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT * FROM users WHERE id = '${parent.user_id}';`);
+  const result = await knexClient.raw(`SELECT id, name, email FROM users WHERE id = '${parent.user_id}';`);
   return JSON.parse(JSON.stringify(result))[0][0];
 };
