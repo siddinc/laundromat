@@ -13,8 +13,7 @@ module.exports = new GraphQLObjectType({
     created_at: { type: GraphQLString },
     appointment_items: {
       type: new GraphQLList(AppointmentItemsType),
-      resolve: (parent, args) =>
-        appointmentsAppointmentItemsRelationship(parent, args),
+      resolve: (parent, args) => appointmentsAppointmentItemsRelationship(parent, args),
     },
   },
 });

@@ -2,7 +2,10 @@ const { GraphQLObjectType, GraphQLString, GraphQLBoolean } = require('graphql');
 
 const AddressesType = require('./addresses');
 const ShopsType = require('./shops');
-const { userAddressRelationship, userShopRelationship } = require('../resolvers/index');
+const {
+  userAddressRelationship,
+  userShopRelationship,
+} = require('../resolvers/index');
 
 module.exports = new GraphQLObjectType({
   name: 'Users',

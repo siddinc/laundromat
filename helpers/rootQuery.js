@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLList, GraphQLInt, GraphQLString } = require('graphql');
+const { GraphQLObjectType, GraphQLList, GraphQLString } = require('graphql');
 
 const {
   AddressesType,
@@ -12,16 +12,22 @@ const {
 const {
   getAddresses,
   getAddressesByPK,
-  getAppointments,
-  getAppointmentsByPK,
+
   getAppointmentItems,
   getAppointmentItemsByPK,
+
+  getAppointments,
+  getAppointmentsByPK,
+  
   getItemTypes,
   getItemTypesByPK,
+
   getRatings,
   getRatingsByPK,
+
   getShops,
   getShopsByPK,
+
   getUsers,
   getUsersByPK,
 } = require('../resolvers/index');

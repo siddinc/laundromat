@@ -11,7 +11,7 @@ module.exports = new GraphQLObjectType({
     quantity: { type: GraphQLInt },
     item_type: {
       type: ItemTypesType,
-      resolve: (parent, args) => appointmentItemsItemTypeRelationship(parent, args), 
-    }
+      resolve: (parent, args) => appointmentItemsItemTypeRelationship(parent, args),
+    },
   },
 });

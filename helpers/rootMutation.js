@@ -7,27 +7,33 @@ const {
 } = require('graphql');
 
 const {
-  insertUsers,
-  updateUsers,
-  deleteUsers,
-  insertShops,
-  updateShops,
-  deleteShops,
-  insertRatings,
-  updateRatings,
-  deleteRatings,
-  insertItemTypes,
-  updateItemTypes,
-  deleteItemTypes,
-  insertAppointments,
-  updateAppointments,
-  deleteAppointments,
-  insertAppointmentItems,
-  updateAppointmentItems,
-  deleteAppointmentItems,
   insertAddresses,
   updateAddresses,
   deleteAddresses,
+
+  insertAppointmentItems,
+  updateAppointmentItems,
+  deleteAppointmentItems,
+
+  insertAppointments,
+  updateAppointments,
+  deleteAppointments,
+
+  insertItemTypes,
+  updateItemTypes,
+  deleteItemTypes,
+
+  insertRatings,
+  updateRatings,
+  deleteRatings,
+
+  insertShops,
+  updateShops,
+  deleteShops,
+  
+  insertUsers,
+  updateUsers,
+  deleteUsers,
 } = require('../resolvers/index');
 
 module.exports = new GraphQLObjectType({
