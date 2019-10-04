@@ -18,7 +18,7 @@ exports.insertShops = async (parent, args) => {
   }
 
   await knexClient.raw(`INSERT INTO shops VALUES ('${args.user_id}', '${args.name}');`);
-  await knexClient.raw(`UPDATE users SET shop_id = '${args.user_id}' WHERE id = '${args.user_id}'`);
+  await knexClient.raw(`UPDATE users SET is_shop_owner = true WHERE id = '${args.user_id}';`);
   return "New shop created successfully";
 };
 
@@ -41,16 +41,11 @@ exports.deleteShops = async (parent, args) => {
   }
 
   await knexClient.raw(`DELETE FROM shops WHERE user_id = '${args.user_id}';`);
-  await knexClient.raw(`UPDATE users SET shop_id = NULL WHERE id = '${args.user_id}';`);
+  await knexClient.raw(`UPDATE users SET is_shop_owner = false WHERE id = '${args.user_id}';`);
   return "Shop deleted successfully";
 };
 
-exports.userRelationship = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT * FROM users WHERE id = '${parent.user_id};'`);
+exports.addressRelationship = async (parent, args) => {
+  const result = await knexClient.raw(`SELECT * FROM addresses WHERE user_id = '${parent.user_id}'`);
   return JSON.parse(JSON.stringify(result))[0][0];
-};
-
-exports.ratingsRelationship = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT * FROM ratings WHERE shop_id = '${parent.user_id}';`);
-  return JSON.parse(JSON.stringify(result))[0];
 };

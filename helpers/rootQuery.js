@@ -2,8 +2,8 @@ const { GraphQLObjectType, GraphQLList, GraphQLInt, GraphQLString } = require('g
 
 const {
   AddressesType,
-  AppointmentsType,
   AppointmentItemsType,
+  AppointmentsType,
   ItemTypesType,
   RatingsType,
   ShopsType,

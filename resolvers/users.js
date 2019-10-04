@@ -2,12 +2,12 @@ const knexClient = require('../config/knex');
 const { generateRandomUUID, hashPassword } = require('../utils/utils');
 
 exports.getUsers = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT id, name, email, address_id, shop_id FROM users;`);
+  const result = await knexClient.raw(`SELECT id, name, email, is_shop_owner FROM users;`);
   return JSON.parse(JSON.stringify(result))[0];
 };
 
 exports.getUsersByPK = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT id, name, email, address_id, shop_id FROM users WHERE id = '${args.id}';`);
+  const result = await knexClient.raw(`SELECT id, name, email, is_shop_owner FROM users WHERE id = '${args.id}';`);
   return JSON.parse(JSON.stringify(result))[0][0];
 };
 
@@ -20,7 +20,7 @@ exports.insertUsers = async (parent, args) => {
 
   const id = generateRandomUUID();
   const hashedPassword = await hashPassword(args.password);
-  await knexClient.raw(`INSERT INTO users VALUES ('${id}', '${args.name}', '${hashedPassword}', '${args.email}');`);
+  await knexClient.raw(`INSERT INTO users VALUES ('${id}', '${args.name}', '${hashedPassword}', '${args.email}', ${args.is_shop_owner});`);
   return "New user created successfully";
 };
 
@@ -52,4 +52,14 @@ exports.deleteUsers = async (parent, args) => {
 
   await knexClient.raw(`DELETE FROM users WHERE id = '${args.id}'`);
   return "User deleted successfully";
+};
+
+exports.addressRelationship = async (parent, args) => {
+  const result = await knexClient.raw(`SELECT * FROM addresses WHERE user_id = '${parent.id}'`);
+  return JSON.parse(JSON.stringify(result))[0][0];
+};
+
+exports.shopRelationship = async (parent, args) => {
+  const result = await knexClient.raw(`SELECT * FROM shops WHERE user_id = '${parent.id}'`);
+  return JSON.parse(JSON.stringify(result))[0][0];
 };

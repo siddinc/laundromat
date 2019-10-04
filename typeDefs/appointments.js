@@ -6,7 +6,6 @@ module.exports = new GraphQLObjectType({
     appointment_id: { type: GraphQLString },
     user_id: { type: GraphQLString },
     shop_id: { type: GraphQLString },
-    address_id: { type: GraphQLString },
     scheduled_for: { type: GraphQLString },
     created_at: { type: GraphQLString },
   },
