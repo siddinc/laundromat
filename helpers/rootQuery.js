@@ -93,7 +93,7 @@ module.exports = new GraphQLObjectType({
     shops_by_pk: {
       type: ShopsType,
       args: {
-        user_id: { type: GraphQLString },
+        shop_id: { type: GraphQLString },
       },
       resolve: (parent, args) => getShopsByPK(parent, args),
     },

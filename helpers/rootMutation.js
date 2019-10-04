@@ -20,6 +20,7 @@ const {
   updateItemTypes,
   deleteItemTypes,
   insertAppointments,
+  updateAppointments,
   deleteAppointments,
   insertAppointmentItems,
   updateAppointmentItems,
@@ -121,7 +122,7 @@ module.exports = new GraphQLObjectType({
     update_item_types: {
       type: GraphQLString,
       args: {
-        id: { type: GraphQLString },
+        type_id: { type: GraphQLString },
         name: { type: GraphQLString },
         ironing_price: { type: GraphQLFloat },
         dry_cleaning_price: { type: GraphQLFloat },
@@ -131,7 +132,7 @@ module.exports = new GraphQLObjectType({
     delete_item_types: {
       type: GraphQLString,
       args: {
-        id: { type: GraphQLString },
+        type_id: { type: GraphQLString },
       },
       resolve: (parent, args) => deleteItemTypes(parent, args),
     },
@@ -141,8 +142,17 @@ module.exports = new GraphQLObjectType({
         user_id: { type: GraphQLString },
         shop_id: { type: GraphQLString },
         address_id: { type: GraphQLString },
+        scheduled_for: { type: GraphQLString },
       },
       resolve: (parent, args) => insertAppointments(parent, args),
+    },
+    update_appointments: {
+      type: GraphQLString,
+      args: {
+        appointment_id: { type: GraphQLString },
+        scheduled_for: { type: GraphQLString },
+      },
+      resolve: (parent, args) => updateAppointments(parent, args),
     },
     delete_appointments: {
       type: GraphQLString,

@@ -2,7 +2,7 @@ const { GraphQLObjectType, GraphQLString, GraphQLBoolean } = require('graphql');
 
 const AddressesType = require('./addresses');
 const ShopsType = require('./shops');
-const { addressRelationship, shopRelationship } = require('../resolvers/index');
+const { userAddressRelationship, userShopRelationship } = require('../resolvers/index');
 
 module.exports = new GraphQLObjectType({
   name: 'Users',
@@ -14,11 +14,11 @@ module.exports = new GraphQLObjectType({
     is_shop_owner: { type: GraphQLBoolean },
     shop: {
       type: ShopsType,
-      resolve: (parent, args) => shopRelationship(parent, args),
+      resolve: (parent, args) => userShopRelationship(parent, args),
     },
     address: {
       type: AddressesType,
-      resolve: (parent, args) => addressRelationship(parent, args),
+      resolve: (parent, args) => userAddressRelationship(parent, args),
     },
   },
 });

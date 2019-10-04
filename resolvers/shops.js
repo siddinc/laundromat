@@ -6,7 +6,7 @@ exports.getShops = async (parent, args) => {
 };
 
 exports.getShopsByPK = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT * FROM shops WHERE user_id = '${args.user_id}';`);
+  const result = await knexClient.raw(`SELECT * FROM shops WHERE user_id = '${args.shop_id}';`);
   return JSON.parse(JSON.stringify(result))[0][0];
 };
 
@@ -45,7 +45,12 @@ exports.deleteShops = async (parent, args) => {
   return "Shop deleted successfully";
 };
 
-exports.addressRelationship = async (parent, args) => {
-  const result = await knexClient.raw(`SELECT * FROM addresses WHERE user_id = '${parent.user_id}'`);
+exports.shopAddressRelationship = async (parent, args) => {
+  const result = await knexClient.raw(`SELECT * FROM addresses WHERE user_id = '${parent.user_id}';`);
   return JSON.parse(JSON.stringify(result))[0][0];
+};
+
+exports.shopRatingRelationship = async (parent, args) => {
+  const result = await knexClient.raw(`SELECT * FROM ratings WHERE shop_id = '${parent.user_id}';`);
+  return JSON.parse(JSON.stringify(result))[0];
 };

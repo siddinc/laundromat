@@ -18,9 +18,9 @@ exports.getAppointmentItemsByPK = async (parent, args) => {
 };
 
 exports.insertAppointmentItems = async (parent, args) => {
-  const existingAppointmentItems = await knexClient.raw(`SELECT appointment_id FROM appointment_items WHERE appointment_id = '${args.appointment_id}' AND item_type_id = '${args.item_type_id}';`);
+  const existingAppointmentItem = await knexClient.raw(`SELECT appointment_id FROM appointment_items WHERE appointment_id = '${args.appointment_id}' AND item_type_id = '${args.item_type_id}';`);
 
-  if(JSON.parse(JSON.stringify(existingAppointmentItems))[0].length !== 0) {
+  if(JSON.parse(JSON.stringify(existingAppointmentItem))[0].length !== 0) {
     return `Appointment item already exists`;
   }
 
@@ -29,9 +29,9 @@ exports.insertAppointmentItems = async (parent, args) => {
 };
 
 exports.updateAppointmentItems = async (parent, args) => {
-  const existingAppointmentItems = await knexClient.raw(`SELECT appointment_id FROM appointment_items WHERE appointment_id = '${args.appointment_id}' AND item_type_id = '${args.item_type_id}';`);
+  const existingAppointmentItem = await knexClient.raw(`SELECT appointment_id FROM appointment_items WHERE appointment_id = '${args.appointment_id}' AND item_type_id = '${args.item_type_id}';`);
 
-  if(JSON.parse(JSON.stringify(existingAppointmentItems))[0].length === 0) {
+  if(JSON.parse(JSON.stringify(existingAppointmentItem))[0].length === 0) {
     return `Appointment item doesn't exist`;
   }
 
@@ -40,12 +40,17 @@ exports.updateAppointmentItems = async (parent, args) => {
 };
 
 exports.deleteAppointmentItems = async (parent, args) => {
-  const existingAppointmentItems = await knexClient.raw(`SELECT appointment_id FROM appointment_items WHERE appointment_id = '${args.appointment_id}' AND item_type_id = '${args.item_type_id}';`);
+  const existingAppointmentItem = await knexClient.raw(`SELECT appointment_id FROM appointment_items WHERE appointment_id = '${args.appointment_id}' AND item_type_id = '${args.item_type_id}';`);
 
-  if(JSON.parse(JSON.stringify(existingAppointmentItems))[0].length === 0) {
+  if(JSON.parse(JSON.stringify(existingAppointmentItem))[0].length === 0) {
     return `Appointment item doesn't exist`;
   }
 
   await knexClient.raw(`DELETE FROM appointment_items WHERE appointment_id = '${args.appointment_id}' AND item_type_id = '${args.item_type_id}';`);
   return "Appointment item deleted successfully";
+};
+
+exports.appointmentItemsItemTypeRelationship = async (parent, args) => {
+  const result = await knexClient.raw(`SELECT * FROM item_types WHERE type_id = '${parent.item_type_id}';`);
+  return JSON.parse(JSON.stringify(result))[0][0];
 };

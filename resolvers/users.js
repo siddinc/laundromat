@@ -54,12 +54,12 @@ exports.deleteUsers = async (parent, args) => {
   return "User deleted successfully";
 };
 
-exports.addressRelationship = async (parent, args) => {
+exports.userAddressRelationship = async (parent, args) => {
   const result = await knexClient.raw(`SELECT * FROM addresses WHERE user_id = '${parent.id}'`);
   return JSON.parse(JSON.stringify(result))[0][0];
 };
 
-exports.shopRelationship = async (parent, args) => {
+exports.userShopRelationship = async (parent, args) => {
   const result = await knexClient.raw(`SELECT * FROM shops WHERE user_id = '${parent.id}'`);
   return JSON.parse(JSON.stringify(result))[0][0];
 };

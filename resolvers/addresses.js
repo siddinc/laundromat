@@ -11,6 +11,12 @@ exports.getAddressesByPK = async (parent, args) => {
 };
 
 exports.insertAddresses = async (parent, args) => {
+  const existingAddresses = await knexClient.raw(`SELECT user_id FROM addresses WHERE user_id = '${args.user_id}';`);
+
+  if(JSON.parse(JSON.stringify(existingAddresses))[0].length !== 0) {
+    return `Address already exists`;
+  }
+
   await knexClient.raw(`INSERT INTO addresses VALUES ('${args.user_id}', '${args.address}', '${args.city}', ${args.latitude}, ${args.longitude});`);
   return "New address created successfully";
 };

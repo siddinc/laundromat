@@ -11,22 +11,21 @@ exports.getItemTypesByPK = async (parent, args) => {
 };
 
 exports.insertItemTypes = async (parent, args) => {
-  const existingItemTypes = await knexClient.raw(`SELECT type_id FROM item_types WHERE name = '${args.name}';`);
+  const existingItemType = await knexClient.raw(`SELECT type_id FROM item_types WHERE name = '${args.name}';`);
 
-  if(JSON.parse(JSON.stringify(existingItemTypes))[0].length !== 0) {
+  if(JSON.parse(JSON.stringify(existingItemType))[0].length !== 0) {
     return `Item type already exists`;
   }
 
   const id = generateRandomUUID();
-
   await knexClient.raw(`INSERT INTO item_types VALUES ('${id}', '${args.name}', ${args.ironing_price}, ${args.dry_cleaning_price});`);
   return "New item type created successfully";
 };
 
 exports.updateItemTypes = async (parent, args) => {
-  const existingItemTypes = await knexClient.raw(`SELECT type_id FROM item_types WHERE type_id = '${args.type_id}';`);
+  const existingItemType = await knexClient.raw(`SELECT type_id FROM item_types WHERE type_id = '${args.type_id}';`);
 
-  if(JSON.parse(JSON.stringify(existingItemTypes))[0].length === 0) {
+  if(JSON.parse(JSON.stringify(existingItemType))[0].length === 0) {
     return `Item type doesn't exist`;
   }
 
@@ -35,9 +34,9 @@ exports.updateItemTypes = async (parent, args) => {
 };
 
 exports.deleteItemTypes = async (parent, args) => {
-  const existingItemTypes = await knexClient.raw(`SELECT type_id FROM item_types WHERE type_id = '${args.type_id}';`);
+  const existingItemType = await knexClient.raw(`SELECT type_id FROM item_types WHERE type_id = '${args.type_id}';`);
 
-  if(JSON.parse(JSON.stringify(existingItemTypes))[0].length === 0) {
+  if(JSON.parse(JSON.stringify(existingItemType))[0].length === 0) {
     return `Item type doesn't exist`;
   }
 
