@@ -50,7 +50,14 @@ exports.deleteUsers = async (parent, args) => {
     return `User doesn't exist`;
   }
 
+  const existingUserShop = await knexClient.raw(`SELECT user_id FROM shops WHERE user_id = '${args.id}';`);
+
+  if(JSON.parse(JSON.stringify(existingUserShop))[0].length !== 0) {
+    await knexClient.raw(`DELETE FROM shops WHERE user_id = '${args.id}'`);
+  }
+  
   await knexClient.raw(`DELETE FROM users WHERE id = '${args.id}'`);
+  await knexClient.raw(`DELETE FROM addresses WHERE user_id = '${args.id}'`);
   return "User deleted successfully";
 };
 

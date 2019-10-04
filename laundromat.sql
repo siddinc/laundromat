@@ -28,8 +28,7 @@ CREATE TABLE `addresses` (
   `city` varchar(255) DEFAULT NULL,
   `latitude` double(10,4) DEFAULT NULL,
   `longitude` double(10,4) DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  CONSTRAINT `addresses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -39,7 +38,7 @@ CREATE TABLE `addresses` (
 
 LOCK TABLES `addresses` WRITE;
 /*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
-INSERT INTO `addresses` VALUES ('4CJCWsfNXDdBX97aPC2rsv','201, krishna chs, andheri east','mumbai',19.1819,72.2722),('5ZRjASFa2idaJYr61HWVhM','102, vishnu chs, dadar west','mumbai',19.9281,72.3633),('9Ar5JSFfz7Rx8HM59e67A6','953, ramesh chs, kandivali west','mumbai',19.1938,72.4228),('moafK4qor4YKKCMAD7TtWa','192, suresh chs, borivali west','mumbai',19.3811,72.2922);
+INSERT INTO `addresses` VALUES ('5ZRjASFa2idaJYr61HWVhM','102, vishnu chs, dadar west','mumbai',19.9281,72.3633),('9Ar5JSFfz7Rx8HM59e67A6','953, ramesh chs, kandivali west','mumbai',19.1938,72.4228),('moafK4qor4YKKCMAD7TtWa','192, suresh chs, borivali west','mumbai',19.3811,72.2922);
 /*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,8 +55,8 @@ CREATE TABLE `appointment_items` (
   `quantity` int(11) DEFAULT NULL,
   PRIMARY KEY (`appointment_id`,`item_type_id`),
   KEY `item_type_id` (`item_type_id`),
-  CONSTRAINT `appointment_items_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`appointment_id`),
-  CONSTRAINT `appointment_items_ibfk_2` FOREIGN KEY (`item_type_id`) REFERENCES `item_types` (`type_id`)
+  CONSTRAINT `appointment_items_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`appointment_id`) ON DELETE CASCADE,
+  CONSTRAINT `appointment_items_ibfk_2` FOREIGN KEY (`item_type_id`) REFERENCES `item_types` (`type_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -67,7 +66,7 @@ CREATE TABLE `appointment_items` (
 
 LOCK TABLES `appointment_items` WRITE;
 /*!40000 ALTER TABLE `appointment_items` DISABLE KEYS */;
-INSERT INTO `appointment_items` VALUES ('bkUsBizKMYAf3DRFmMh3QE','42ZUvCdgWc7EN3svPv7vFf',2),('bkUsBizKMYAf3DRFmMh3QE','5vr92CvxpJZkPiYoKpxsFP',4),('kAYtKuDm2FDbPiSVEC4DCB','ivHsAZzutc3KpNkt7EdcXG',1);
+INSERT INTO `appointment_items` VALUES ('bkUsBizKMYAf3DRFmMh3QE','42ZUvCdgWc7EN3svPv7vFf',2),('bkUsBizKMYAf3DRFmMh3QE','5vr92CvxpJZkPiYoKpxsFP',4);
 /*!40000 ALTER TABLE `appointment_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,14 +83,14 @@ CREATE TABLE `appointments` (
   `shop_id` varchar(255) DEFAULT NULL,
   `address_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `scheduled_for` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `scheduled_for` date DEFAULT NULL,
   PRIMARY KEY (`appointment_id`),
-  KEY `address_id` (`address_id`),
   KEY `user_id` (`user_id`),
   KEY `shop_id` (`shop_id`),
-  CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`address_id`) REFERENCES `addresses` (`user_id`),
-  CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `appointments_ibfk_3` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`user_id`)
+  KEY `address_id` (`address_id`),
+  CONSTRAINT `appointments_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `appointments_ibfk_5` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `appointments_ibfk_6` FOREIGN KEY (`address_id`) REFERENCES `addresses` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,7 +100,7 @@ CREATE TABLE `appointments` (
 
 LOCK TABLES `appointments` WRITE;
 /*!40000 ALTER TABLE `appointments` DISABLE KEYS */;
-INSERT INTO `appointments` VALUES ('bkUsBizKMYAf3DRFmMh3QE','moafK4qor4YKKCMAD7TtWa','9Ar5JSFfz7Rx8HM59e67A6','moafK4qor4YKKCMAD7TtWa','2019-10-02 19:24:04','2019-10-02 19:24:04'),('kAYtKuDm2FDbPiSVEC4DCB','4CJCWsfNXDdBX97aPC2rsv','5ZRjASFa2idaJYr61HWVhM','4CJCWsfNXDdBX97aPC2rsv','2019-10-02 19:21:26','2019-10-02 19:21:26');
+INSERT INTO `appointments` VALUES ('bkUsBizKMYAf3DRFmMh3QE','moafK4qor4YKKCMAD7TtWa','9Ar5JSFfz7Rx8HM59e67A6','moafK4qor4YKKCMAD7TtWa','2019-10-02 19:24:04','2019-10-03');
 /*!40000 ALTER TABLE `appointments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,8 +159,8 @@ CREATE TABLE `ratings` (
   `comment` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`shop_id`,`user_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`user_id`),
-  CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `ratings_ibfk_5` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `ratings_ibfk_6` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -171,7 +170,7 @@ CREATE TABLE `ratings` (
 
 LOCK TABLES `ratings` WRITE;
 /*!40000 ALTER TABLE `ratings` DISABLE KEYS */;
-INSERT INTO `ratings` VALUES ('5ZRjASFa2idaJYr61HWVhM','4CJCWsfNXDdBX97aPC2rsv',5,'very nice shop'),('5ZRjASFa2idaJYr61HWVhM','moafK4qor4YKKCMAD7TtWa',3,'very good shop'),('9Ar5JSFfz7Rx8HM59e67A6','4CJCWsfNXDdBX97aPC2rsv',1,'very boring shop'),('9Ar5JSFfz7Rx8HM59e67A6','moafK4qor4YKKCMAD7TtWa',1,'very bad shop');
+INSERT INTO `ratings` VALUES ('5ZRjASFa2idaJYr61HWVhM','moafK4qor4YKKCMAD7TtWa',3,'very good shop'),('9Ar5JSFfz7Rx8HM59e67A6','moafK4qor4YKKCMAD7TtWa',1,'very bad shop');
 /*!40000 ALTER TABLE `ratings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,8 +184,7 @@ DROP TABLE IF EXISTS `shops`;
 CREATE TABLE `shops` (
   `user_id` varchar(255) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  CONSTRAINT `shops_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -212,6 +210,7 @@ CREATE TABLE `users` (
   `name` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `is_shop_owner` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -222,7 +221,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('4CJCWsfNXDdBX97aPC2rsv','siddharth','$2b$10$GWwSuq7xW4OW/9DjW558G..jbf5BMcYoYBSa5IUu/CPLVLmGaIxMu','sid@gmail.com'),('5ZRjASFa2idaJYr61HWVhM','palash','$2b$10$ohMRj.QfnUOuBbrNLpD11eUfdxut05LvJN7yioaHpsJUbxo/euSB.','pals@gmail.com'),('9Ar5JSFfz7Rx8HM59e67A6','manan','$2b$10$tdGabdrIteJRW7UpsqZndeGXpQmx4h7hAmAIzuWFTqgvvXT2XMO0y','man@gmail.com'),('moafK4qor4YKKCMAD7TtWa','vikrant','$2b$10$sAQh0tgmvwIcdSmq9Bpbx..91mM3oO7T7oTeUTX62ypoD4yJb9itm','vik@gmail.com');
+INSERT INTO `users` VALUES ('5ZRjASFa2idaJYr61HWVhM','palash','$2b$10$ohMRj.QfnUOuBbrNLpD11eUfdxut05LvJN7yioaHpsJUbxo/euSB.','pals@gmail.com',0),('9Ar5JSFfz7Rx8HM59e67A6','manan','$2b$10$tdGabdrIteJRW7UpsqZndeGXpQmx4h7hAmAIzuWFTqgvvXT2XMO0y','man@gmail.com',0),('moafK4qor4YKKCMAD7TtWa','vikrant','$2b$10$sAQh0tgmvwIcdSmq9Bpbx..91mM3oO7T7oTeUTX62ypoD4yJb9itm','vik@gmail.com',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,4 +252,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-03 14:18:18
+-- Dump completed on 2019-10-04 19:04:15
