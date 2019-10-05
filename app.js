@@ -2,11 +2,11 @@ const app = require('express')();
 const graphqlHTTP = require('express-graphql');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const cors = require('cors')
+const cors = require('cors');
 const helmet = require('helmet');
 
 const { signInUsers, signUpUsers } = require('./resolvers/index');
-const verifyAuthentication = require('./middlewares/verifyAuthentication');
+const { verifyAuthentication, verifyAuthorization } = require('./middlewares/index');
 const schema = require('./helpers/index');
 const { port } = require('./config/index');
 
@@ -31,17 +31,20 @@ app.post('/signup', signUpUsers);
 
 app.post('/signin', signInUsers);
 
-app.use('/graphql', verifyAuthentication, graphqlHTTP((req, res, graphQLParams) => ({
-      schema,
-      context: { user: res.locals.user },
-      graphiql: true,
-    })
-  )
+app.use(
+  '/:user_id/graphql',
+  verifyAuthentication,
+  verifyAuthorization,
+  graphqlHTTP((req, res, graphQLParams) => ({
+    schema,
+    context: { user: res.locals.user },
+    graphiql: true,
+  }))
 );
 
 // 404 Resource not found
 app.use('*', (req, res, next) => {
-  res.status(404).send("Resource not found");
+  res.status(404).send('Resource not found');
 });
 
 if (typeof module !== 'undefined' && !module.parent) {
