@@ -17,10 +17,10 @@ module.exports = async (req, res, next) => {
   const hashedPassword = await hashPassword(req.body.password);
   await knexClient.raw(`INSERT INTO users VALUES ('${id}', '${req.body.name}', '${hashedPassword}', '${req.body.email}', ${req.body.is_shop_owner});`);
 
-  const token = await createJWT({ id, email: req.body.email });
+  const token = await createJWT({ id, email: req.body.email, name: req.body.name });
   return res.status(200).send({
     status: res.statusCode,
-    message: "Signup successful",
+    message: "Signed up successfully",
     data: { token }
   });
 };

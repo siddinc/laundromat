@@ -1,9 +1,9 @@
 const app = require('express')();
-const graphqlHTTP = require('express-graphql');
-const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const graphqlHTTP = require('express-graphql');
 const helmet = require('helmet');
+const morgan = require('morgan');
 
 const { signInUsers, signUpUsers } = require('./resolvers/index');
 const { verifyAuthentication, verifyAuthorization } = require('./middlewares/index');
@@ -44,7 +44,23 @@ app.use(
 
 // 404 Resource not found
 app.use('*', (req, res, next) => {
-  res.status(404).send('Resource not found');
+  return res.status(404).send({
+    error: {
+      status: res.statusCode,
+      message: "Resource not found"
+    }
+  });
+});
+
+// custom error handler
+app.use((err, req, res, next) => {
+  console.log(err);
+  return res.send({
+    error: {
+      status: 500 || err.status,
+      message: err.message,
+    }
+  });
 });
 
 if (typeof module !== 'undefined' && !module.parent) {

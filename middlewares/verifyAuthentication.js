@@ -14,7 +14,13 @@ module.exports = async (req, res, next) => {
     });
   }
 
-  const payload = await verifyJWT(token);
+  let payload;
+  try {
+    payload = await verifyJWT(token);
+  }catch(error) {
+    return next(error);
+  }
+  
   const result = await knexClient.raw(`SELECT id, name, email, is_shop_owner FROM users WHERE id = '${payload.id}' AND email = '${payload.email}';`);
   const existingUser = JSON.parse(JSON.stringify(result))[0];
 

@@ -2,7 +2,7 @@ const knexClient = require('../config/knex');
 const { comparePassword, createJWT } = require('../utils/utils');
 
 module.exports = async (req, res, next) => {
-  const existingUser = await knexClient.raw(`SELECT id, password FROM users WHERE email = '${req.body.email}';`);
+  const existingUser = await knexClient.raw(`SELECT id, name, password FROM users WHERE email = '${req.body.email}';`);
   const result = JSON.parse(JSON.stringify(existingUser))[0];
 
   if(result.length === 0) {
@@ -25,9 +25,9 @@ module.exports = async (req, res, next) => {
     });
   }
 
-  const token = await createJWT({ id: result[0].id, email: req.body.email });
+  const token = await createJWT({ id: result[0].id, email: req.body.email, name: result[0].name });
   return res.status(200).send({
-    message: "Signin successful",
-    data: { token }
+    message: "Signed in successfully",
+    data: { token },
   });
 };
