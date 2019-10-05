@@ -105,7 +105,7 @@ module.exports = new GraphQLObjectType({
     },
     users: {
       type: new GraphQLList(UsersType),
-      resolve: (parent, args) => getUsers(parent, args),
+      resolve: (parent, args, context) => getUsers(parent, args)
     },
     users_by_pk: {
       type: UsersType,

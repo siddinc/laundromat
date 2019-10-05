@@ -16,6 +16,7 @@ const config = {
   databasePassword: process.env.DATABASE_PASSWORD,
   databaseName: process.env.DATABASE_NAME,
   saltRounds: Number(process.env.SALT_ROUNDS),
+  secret: process.env.SECRET,
 };
 
 module.exports = config;

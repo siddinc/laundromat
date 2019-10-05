@@ -1,5 +1,7 @@
+const jwt = require('jsonwebtoken');
+
 const knexClient = require('../config/knex');
-const { generateRandomUUID, hashPassword } = require('../utils/utils');
+const { hashPassword } = require('../utils/utils');
 
 exports.getUsers = async (parent, args) => {
   const result = await knexClient.raw(`SELECT id, name, email, is_shop_owner FROM users;`);
@@ -9,19 +11,6 @@ exports.getUsers = async (parent, args) => {
 exports.getUsersByPK = async (parent, args) => {
   const result = await knexClient.raw(`SELECT id, name, email, is_shop_owner FROM users WHERE id = '${args.id}';`);
   return JSON.parse(JSON.stringify(result))[0][0];
-};
-
-exports.insertUsers = async (parent, args) => {
-  const existingUser = await knexClient.raw(`SELECT id FROM users WHERE email = '${args.email}';`);
-
-  if(JSON.parse(JSON.stringify(existingUser))[0].length !== 0) {
-    return `User already exists`;
-  }
-
-  const id = generateRandomUUID();
-  const hashedPassword = await hashPassword(args.password);
-  await knexClient.raw(`INSERT INTO users VALUES ('${id}', '${args.name}', '${hashedPassword}', '${args.email}', ${args.is_shop_owner});`);
-  return "New user created successfully";
 };
 
 exports.updateUsers = async (parent, args) => {

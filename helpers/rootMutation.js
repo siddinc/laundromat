@@ -3,7 +3,6 @@ const {
   GraphQLInt,
   GraphQLString,
   GraphQLFloat,
-  GraphQLBoolean,
 } = require('graphql');
 
 const {
@@ -31,7 +30,6 @@ const {
   updateShops,
   deleteShops,
   
-  insertUsers,
   updateUsers,
   deleteUsers,
 } = require('../resolvers/index');
@@ -39,16 +37,6 @@ const {
 module.exports = new GraphQLObjectType({
   name: 'RootMutation',
   fields: {
-    insert_users: {
-      type: GraphQLString,
-      args: {
-        name: { type: GraphQLString },
-        password: { type: GraphQLString },
-        email: { type: GraphQLString },
-        is_shop_owner: { type: GraphQLBoolean },
-      },
-      resolve: (parent, args) => insertUsers(parent, args),
-    },
     update_users: {
       type: GraphQLString,
       args: {

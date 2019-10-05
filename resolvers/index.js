@@ -1,15 +1,19 @@
-const { getUsers, getUsersByPK, insertUsers, updateUsers, deleteUsers, userAddressRelationship, userShopRelationship } = require('../resolvers/users');
+const { getUsers, getUsersByPK, updateUsers, deleteUsers, userAddressRelationship, userShopRelationship } = require('../resolvers/users');
 const { getAddresses, getAddressesByPK, insertAddresses, updateAddresses, deleteAddresses } = require('../resolvers/addresses');
 const { getShops, getShopsByPK, insertShops, updateShops, deleteShops, shopAddressRelationship, shopRatingRelationship } = require('../resolvers/shops');
 const { getRatings, getRatingsByPK, insertRatings, updateRatings, deleteRatings } = require('../resolvers/ratings');
 const { getItemTypes, getItemTypesByPK, insertItemTypes, updateItemTypes, deleteItemTypes } = require('../resolvers/itemTypes');
 const { getAppointments, getAppointmentsByPK, insertAppointments, updateAppointments, deleteAppointments, appointmentsAppointmentItemsRelationship } = require('../resolvers/appointments');
 const { getAppointmentItems, getAppointmentItemsByPK, insertAppointmentItems, updateAppointmentItems, deleteAppointmentItems, appointmentItemsItemTypeRelationship } = require('../resolvers/appointmentItems');
+const signInUsers = require('./signInUsers');
+const signUpUsers = require('./signUpUsers');
 
 module.exports = {
+  signInUsers,
+  signUpUsers,
+  
   getUsers,
   getUsersByPK,
-  insertUsers,
   updateUsers,
   deleteUsers,
   userAddressRelationship,
