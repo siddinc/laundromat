@@ -6,9 +6,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
 
-const { signInUsers, signUpUsers } = require('./resolvers/index');
+const { schema, signInUsers, signUpUsers } = require('./helpers/index');
 const { verifyAuthentication } = require('./middlewares/index');
-const schema = require('./helpers/index');
 const { port } = require('./config/index');
 
 app.set('json spaces', 4);
