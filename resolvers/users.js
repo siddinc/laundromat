@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-
 const knexClient = require('../config/knex');
 const { hashPassword } = require('../utils/utils');
 
@@ -11,6 +9,17 @@ exports.getUsers = async (parent, args) => {
 exports.getUsersByPK = async (parent, args) => {
   const result = await knexClient.raw(`SELECT id, name, email, is_shop_owner FROM users WHERE id = '${args.id}';`);
   return JSON.parse(JSON.stringify(result))[0][0];
+};
+
+exports.getCustomers = async (parent, args) => {
+  const result = await knexClient.raw(`SELECT id, name, email, is_shop_owner FROM customers`);
+  return JSON.parse(JSON.stringify(result))[0];
+};
+  
+exports.getCustomersByCity = async (parent, args) => {
+  const result = await knexClient.raw(`SELECT COUNT(id), city FROM customers GROUP BY city`);
+  const processedResult = JSON.parse(JSON.stringify(result))[0].map(item => ({ count: item['COUNT(id)'], city: item.city }));
+  return processedResult;
 };
 
 exports.updateUsers = async (parent, args) => {

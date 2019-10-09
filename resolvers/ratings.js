@@ -17,6 +17,16 @@ exports.getRatingsByPK = async (parent, args) => {
   return JSON.parse(JSON.stringify(result))[0];
 };
 
+exports.getRatingsAggregateAvg = async (parent, args) => {
+  const result = await knexClient.raw(`SELECT AVG(score) FROM ratings WHERE shop_id = '${args.shop_id}';`);
+  return JSON.parse(JSON.stringify(result))[0][0]['AVG(score)'];
+};
+
+exports.getRatingsAggregateCount = async (parent, args) => {
+  const result = await knexClient.raw(`SELECT COUNT(score) FROM ratings WHERE shop_id = '${args.shop_id}';`);
+  return JSON.parse(JSON.stringify(result))[0][0]['COUNT(score)'];
+};
+
 exports.insertRatings = async (parent, args) => {
   if(args.user_id === args.shop_id) {
     return "Shop owner can't give rating on his/her own shop";

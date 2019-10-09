@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLList, GraphQLString } = require('graphql');
+const { GraphQLObjectType, GraphQLList, GraphQLString, GraphQLFloat, GraphQLInt } = require('graphql');
 
 const {
   AddressesType,
@@ -18,12 +18,17 @@ const {
 
   getAppointments,
   getAppointmentsByPK,
+
+  getCustomers,
+  getCustomersByCity,
   
   getItemTypes,
   getItemTypesByPK,
 
   getRatings,
   getRatingsByPK,
+  getRatingsAggregateAvg,
+  getRatingsAggregateCount,
 
   getShops,
   getShopsByPK,
@@ -69,6 +74,20 @@ module.exports = new GraphQLObjectType({
       },
       resolve: (parent, args) => getAppointmentsByPK(parent, args),
     },
+    get_customers: {
+      type: new GraphQLList(UsersType),
+      resolve: (parent, args) => getCustomers(parent, args),
+    },
+    get_customers_by_city: {
+      type: new GraphQLList(new GraphQLObjectType({
+        name: "CustomerByCity",
+        fields: {
+          count: { type: GraphQLInt },
+          city: { type: GraphQLString },
+        }
+      })),
+      resolve: (parent, args) => getCustomersByCity(parent, args),
+    },
     item_types: {
       type: new GraphQLList(ItemTypesType),
       resolve: (parent, args) => getItemTypes(parent, args),
@@ -91,6 +110,20 @@ module.exports = new GraphQLObjectType({
         shop_id: { type: GraphQLString },
       },
       resolve: (parent, args) => getRatingsByPK(parent, args),
+    },
+    ratings_aggregrate_avg: {
+      type: GraphQLFloat,
+      args: {
+        shop_id: { type: GraphQLString },
+      },
+      resolve: (parent, args) => getRatingsAggregateAvg(parent, args),
+    },
+    ratings_aggregrate_count: {
+      type: GraphQLInt,
+      args: {
+        shop_id: { type: GraphQLString },
+      },
+      resolve: (parent, args) => getRatingsAggregateCount(parent, args),
     },
     shops: {
       type: new GraphQLList(ShopsType),
