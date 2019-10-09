@@ -4,9 +4,10 @@ const cors = require('cors');
 const graphqlHTTP = require('express-graphql');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const path = require('path');
 
 const { signInUsers, signUpUsers } = require('./resolvers/index');
-const { verifyAuthentication, verifyAuthorization } = require('./middlewares/index');
+const { verifyAuthentication } = require('./middlewares/index');
 const schema = require('./helpers/index');
 const { port } = require('./config/index');
 
@@ -26,19 +27,23 @@ app.use(helmet.noCache());
 // cors
 app.use(cors());
 
+// GraphQL playground
+app.get('/playground', (req, res) => {
+  return res.sendFile(path.join(__dirname, '/templates/graphQLPlayground.html'));
+});
+
 // routes
 app.post('/signup', signUpUsers);
 
 app.post('/signin', signInUsers);
 
 app.use(
-  '/:user_id/graphql',
+  '/graphql',
   verifyAuthentication,
-  verifyAuthorization,
   graphqlHTTP((req, res, graphQLParams) => ({
     schema,
     context: { user: res.locals.user },
-    graphiql: true,
+    graphiql: false,
   }))
 );
 
@@ -47,8 +52,8 @@ app.use('*', (req, res, next) => {
   return res.status(404).send({
     error: {
       status: res.statusCode,
-      message: "Resource not found"
-    }
+      message: 'Resource not found',
+    },
   });
 });
 
@@ -59,7 +64,7 @@ app.use((err, req, res, next) => {
     error: {
       status: 500 || err.status,
       message: err.message,
-    }
+    },
   });
 });
 
