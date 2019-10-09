@@ -1,6 +1,6 @@
 const { getUsers, getUsersByPK, getCustomers, getCustomersByCity, updateUsers, deleteUsers, userAddressRelationship, userShopRelationship } = require('../resolvers/users');
 const { getAddresses, getAddressesByPK, insertAddresses, updateAddresses, deleteAddresses } = require('../resolvers/addresses');
-const { getShops, getShopsByPK, insertShops, updateShops, deleteShops, shopAddressRelationship, shopRatingRelationship } = require('../resolvers/shops');
+const { getShops, getShopsByPK, getShopsNearCustomerAddress, insertShops, updateShops, deleteShops, shopAddressRelationship, shopRatingRelationship } = require('../resolvers/shops');
 const { getRatings, getRatingsByPK, insertRatings, updateRatings, deleteRatings, getRatingsAggregateAvg, getRatingsAggregateCount } = require('../resolvers/ratings');
 const { getItemTypes, getItemTypesByPK, insertItemTypes, updateItemTypes, deleteItemTypes } = require('../resolvers/itemTypes');
 const { getAppointments, getAppointmentsByPK, insertAppointments, updateAppointments, deleteAppointments, appointmentsAppointmentItemsRelationship } = require('../resolvers/appointments');
@@ -29,6 +29,7 @@ module.exports = {
 
   getShops,
   getShopsByPK,
+  getShopsNearCustomerAddress,
   insertShops,
   updateShops,
   deleteShops,

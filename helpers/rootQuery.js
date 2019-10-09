@@ -32,6 +32,7 @@ const {
 
   getShops,
   getShopsByPK,
+  getShopsNearCustomerAddress,
 
   getUsers,
   getUsersByPK,
@@ -74,11 +75,11 @@ module.exports = new GraphQLObjectType({
       },
       resolve: (parent, args) => getAppointmentsByPK(parent, args),
     },
-    get_customers: {
+    customers: {
       type: new GraphQLList(UsersType),
       resolve: (parent, args) => getCustomers(parent, args),
     },
-    get_customers_by_city: {
+    customers_by_city: {
       type: new GraphQLList(new GraphQLObjectType({
         name: "CustomerByCity",
         fields: {
@@ -135,6 +136,13 @@ module.exports = new GraphQLObjectType({
         shop_id: { type: GraphQLString },
       },
       resolve: (parent, args) => getShopsByPK(parent, args),
+    },
+    shops_near_customer_address: {
+      type: new GraphQLList(ShopsType),
+      args: {
+        customer_id: { type: GraphQLString },
+      },
+      resolve: (parent, args) => getShopsNearCustomerAddress(parent, args),
     },
     users: {
       type: new GraphQLList(UsersType),

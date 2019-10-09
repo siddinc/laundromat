@@ -10,6 +10,23 @@ exports.getShopsByPK = async (parent, args) => {
   return JSON.parse(JSON.stringify(result))[0][0];
 };
 
+exports.getShopsNearCustomerAddress = async (parent, args) => {
+  const customerAddress = JSON.parse(JSON.stringify(await knexClient.raw(`SELECT latitude, longitude, city from customers WHERE id = '${args.customer_id}'`)))[0][0];
+
+  if(!customerAddress) {
+    return [];
+  }
+
+  const shopsNearCustomerAddress = await knexClient.raw(`SELECT * FROM (shops INNER JOIN addresses ON shops.user_id = addresses.user_id) WHERE (addresses.latitude BETWEEN ${customerAddress.latitude - 1.0} AND ${customerAddress.latitude + 1.0}) AND (addresses.longitude BETWEEN ${customerAddress.longitude - 1.0} AND ${customerAddress.longitude + 1.0});`);
+  const processedShopsNearCustomerAddress = JSON.parse(JSON.stringify(shopsNearCustomerAddress))[0];
+
+  if(processedShopsNearCustomerAddress.length === 0) {
+    return [];
+  }
+
+  return processedShopsNearCustomerAddress;
+};
+
 exports.insertShops = async (parent, args) => {
   const existingShop = await knexClient.raw(`SELECT user_id FROM shops WHERE user_id = '${args.user_id}';`);
 
