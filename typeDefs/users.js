@@ -16,8 +16,8 @@ module.exports = new GraphQLObjectType({
   name: 'Users',
   fields: {
     id: { type: GraphQLNonNull(GraphQLString) },
-    name: { type: GraphQLNonNull(GraphQLString) },
-    password: { type: GraphQLNonNull(GraphQLString) },
+    name: { type: GraphQLString },
+    password: { type: GraphQLString },
     email: { type: GraphQLNonNull(GraphQLString) },
     is_shop_owner: { type: GraphQLNonNull(GraphQLBoolean) },
     shop: {

@@ -6,7 +6,6 @@ module.exports = async (req, res, next) => {
 
   if(!token) {
     return res.status(400).send({
-      authentication: false,
       error: {
         status: res.statusCode,
         message: "No JWT provided",
@@ -26,7 +25,6 @@ module.exports = async (req, res, next) => {
 
   if(existingUser.length === 0) {
     res.status(404).send({
-      authentication: false,
       error: {
         status: res.statusCode,
         message: "User does not exist",
