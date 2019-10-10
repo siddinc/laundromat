@@ -29,13 +29,13 @@ exports.updateAppointments = async (parent, args) => {
 };
 
 exports.deleteAppointments = async (parent, args) => {
-  const existingAppointments = await knexClient.raw(`SELECT appointment_id FROM appointments WHERE user_id = '${args.user_id}' AND shop_id = '${args.shop_id}';`);
+  const existingAppointments = await knexClient.raw(`SELECT appointment_id FROM appointments WHERE appointment_id = '${args.appointment_id}';`);
 
   if(JSON.parse(JSON.stringify(existingAppointments))[0].length === 0) {
     return `Appointment doesn't exist`;
   }
 
-  await knexClient.raw(`DELETE FROM appointments WHERE user_id = '${args.user_id}' AND shop_id = '${args.shop_id}';`);
+  await knexClient.raw(`DELETE FROM appointments WHERE appointment_id = '${args.appointment_id}';`);
   return "Appointment deleted successfully";
 };
 

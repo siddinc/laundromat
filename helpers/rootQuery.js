@@ -1,4 +1,11 @@
-const { GraphQLObjectType, GraphQLList, GraphQLString, GraphQLFloat, GraphQLInt } = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLList,
+  GraphQLString,
+  GraphQLFloat,
+  GraphQLInt,
+  GraphQLNonNull,
+} = require('graphql');
 
 const {
   AddressesType,
@@ -21,7 +28,7 @@ const {
 
   getCustomers,
   getCustomersByCity,
-  
+
   getItemTypes,
   getItemTypesByPK,
 
@@ -48,7 +55,7 @@ module.exports = new GraphQLObjectType({
     addresses_by_pk: {
       type: AddressesType,
       args: {
-        user_id: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => getAddressesByPK(parent, args),
     },
@@ -59,8 +66,8 @@ module.exports = new GraphQLObjectType({
     appointment_items_by_pk: {
       type: new GraphQLList(AppointmentItemsType),
       args: {
-        appointment_id: { type: GraphQLString },
-        item_type_id: { type: GraphQLString },
+        appointment_id: { type: GraphQLNonNull(GraphQLString) },
+        item_type_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => getAppointmentItemsByPK(parent, args),
     },
@@ -71,7 +78,7 @@ module.exports = new GraphQLObjectType({
     appointments_by_pk: {
       type: AppointmentsType,
       args: {
-        appointment_id: { type: GraphQLString },
+        appointment_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => getAppointmentsByPK(parent, args),
     },
@@ -80,13 +87,15 @@ module.exports = new GraphQLObjectType({
       resolve: (parent, args) => getCustomers(parent, args),
     },
     customers_by_city: {
-      type: new GraphQLList(new GraphQLObjectType({
-        name: "CustomerByCity",
-        fields: {
-          count: { type: GraphQLInt },
-          city: { type: GraphQLString },
-        }
-      })),
+      type: new GraphQLList(
+        new GraphQLObjectType({
+          name: 'CustomerByCity',
+          fields: {
+            count: { type: GraphQLInt },
+            city: { type: GraphQLString },
+          },
+        })
+      ),
       resolve: (parent, args) => getCustomersByCity(parent, args),
     },
     item_types: {
@@ -96,7 +105,7 @@ module.exports = new GraphQLObjectType({
     item_types_by_pk: {
       type: ItemTypesType,
       args: {
-        type_id: { type: GraphQLString },
+        type_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => getItemTypesByPK(parent, args),
     },
@@ -107,22 +116,22 @@ module.exports = new GraphQLObjectType({
     ratings_by_pk: {
       type: new GraphQLList(RatingsType),
       args: {
-        user_id: { type: GraphQLString },
-        shop_id: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
+        shop_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => getRatingsByPK(parent, args),
     },
     ratings_aggregrate_avg: {
       type: GraphQLFloat,
       args: {
-        shop_id: { type: GraphQLString },
+        shop_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => getRatingsAggregateAvg(parent, args),
     },
     ratings_aggregrate_count: {
       type: GraphQLInt,
       args: {
-        shop_id: { type: GraphQLString },
+        shop_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => getRatingsAggregateCount(parent, args),
     },
@@ -133,25 +142,25 @@ module.exports = new GraphQLObjectType({
     shops_by_pk: {
       type: ShopsType,
       args: {
-        shop_id: { type: GraphQLString },
+        shop_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => getShopsByPK(parent, args),
     },
     shops_near_customer_address: {
       type: new GraphQLList(ShopsType),
       args: {
-        customer_id: { type: GraphQLString },
+        customer_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => getShopsNearCustomerAddress(parent, args),
     },
     users: {
       type: new GraphQLList(UsersType),
-      resolve: (parent, args, context) => getUsers(parent, args)
+      resolve: (parent, args, context) => getUsers(parent, args),
     },
     users_by_pk: {
       type: UsersType,
       args: {
-        id: { type: GraphQLString },
+        id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => getUsersByPK(parent, args),
     },

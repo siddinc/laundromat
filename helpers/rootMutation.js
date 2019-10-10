@@ -3,6 +3,7 @@ const {
   GraphQLInt,
   GraphQLString,
   GraphQLFloat,
+  GraphQLNonNull
 } = require('graphql');
 
 const {
@@ -40,18 +41,18 @@ module.exports = new GraphQLObjectType({
     insert_addresses: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
         address: { type: GraphQLString },
         city: { type: GraphQLString },
-        latitude: { type: GraphQLFloat },
-        longitude: { type: GraphQLFloat },
+        latitude: { type: GraphQLNonNull(GraphQLFloat) },
+        longitude: { type: GraphQLNonNull(GraphQLFloat) },
       },
       resolve: (parent, args) => insertAddresses(parent, args),
     },
     update_addresses: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
         address: { type: GraphQLString },
         city: { type: GraphQLString },
         latitude: { type: GraphQLFloat },
@@ -62,15 +63,15 @@ module.exports = new GraphQLObjectType({
     delete_addresses: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => deleteAddresses(parent, args),
     },
     insert_appointment_items: {
       type: GraphQLString,
       args: {
-        appointment_id: { type: GraphQLString },
-        item_type_id: { type: GraphQLString },
+        appointment_id: { type: GraphQLNonNull(GraphQLString) },
+        item_type_id: { type: GraphQLNonNull(GraphQLString) },
         quantity: { type: GraphQLInt },
       },
       resolve: (parent, args) => insertAppointmentItems(parent, args),
@@ -78,34 +79,34 @@ module.exports = new GraphQLObjectType({
     update_appointment_items: {
       type: GraphQLString,
       args: {
-        appointment_id: { type: GraphQLString },
-        item_type_id: { type: GraphQLString },
-        quantity: { type: GraphQLInt },
+        appointment_id: { type: GraphQLNonNull(GraphQLString) },
+        item_type_id: { type: GraphQLNonNull(GraphQLString) },
+        quantity: { type: GraphQLNonNull(GraphQLInt) },
       },
       resolve: (parent, args) => updateAppointmentItems(parent, args),
     },
     delete_appointment_items: {
       type: GraphQLString,
       args: {
-        appointment_id: { type: GraphQLString },
-        item_type_id: { type: GraphQLString },
+        appointment_id: { type: GraphQLNonNull(GraphQLString) },
+        item_type_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => deleteAppointmentItems(parent, args),
     },
     insert_appointments: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
-        shop_id: { type: GraphQLString },
-        address_id: { type: GraphQLString },
-        scheduled_for: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
+        shop_id: { type: GraphQLNonNull(GraphQLString) },
+        address_id: { type: GraphQLNonNull(GraphQLString) },
+        scheduled_for: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => insertAppointments(parent, args),
     },
     update_appointments: {
       type: GraphQLString,
       args: {
-        appointment_id: { type: GraphQLString },
+        appointment_id: { type: GraphQLNonNull(GraphQLString) },
         scheduled_for: { type: GraphQLString },
       },
       resolve: (parent, args) => updateAppointments(parent, args),
@@ -113,15 +114,14 @@ module.exports = new GraphQLObjectType({
     delete_appointments: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
-        shop_id: { type: GraphQLString },
+        appointment_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => deleteAppointments(parent, args),
     },
     insert_item_types: {
       type: GraphQLString,
       args: {
-        name: { type: GraphQLString },
+        name: { type: GraphQLNonNull(GraphQLString) },
         ironing_price: { type: GraphQLFloat },
         dry_cleaning_price: { type: GraphQLFloat },
       },
@@ -130,7 +130,7 @@ module.exports = new GraphQLObjectType({
     update_item_types: {
       type: GraphQLString,
       args: {
-        type_id: { type: GraphQLString },
+        type_id: { type: GraphQLNonNull(GraphQLString) },
         name: { type: GraphQLString },
         ironing_price: { type: GraphQLFloat },
         dry_cleaning_price: { type: GraphQLFloat },
@@ -140,15 +140,15 @@ module.exports = new GraphQLObjectType({
     delete_item_types: {
       type: GraphQLString,
       args: {
-        type_id: { type: GraphQLString },
+        type_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => deleteItemTypes(parent, args),
     },
     insert_ratings: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
-        shop_id: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
+        shop_id: { type: GraphQLNonNull(GraphQLString) },
         score: { type: GraphQLInt },
         comment: { type: GraphQLString },
       },
@@ -157,8 +157,8 @@ module.exports = new GraphQLObjectType({
     update_ratings: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
-        shop_id: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
+        shop_id: { type: GraphQLNonNull(GraphQLString) },
         score: { type: GraphQLInt },
         comment: { type: GraphQLString },
       },
@@ -167,23 +167,23 @@ module.exports = new GraphQLObjectType({
     delete_ratings: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
-        shop_id: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
+        shop_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => deleteRatings(parent, args),
     },
     insert_shops: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
-        name: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
+        name: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => insertShops(parent, args),
     },
     update_shops: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
         name: { type: GraphQLString },
       },
       resolve: (parent, args) => updateShops(parent, args),
@@ -191,14 +191,14 @@ module.exports = new GraphQLObjectType({
     delete_shops: {
       type: GraphQLString,
       args: {
-        user_id: { type: GraphQLString },
+        user_id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => deleteShops(parent, args),
     },
     update_users: {
       type: GraphQLString,
       args: {
-        id: { type: GraphQLString },
+        id: { type: GraphQLNonNull(GraphQLString) },
         name: { type: GraphQLString },
         password: { type: GraphQLString },
       },
@@ -207,7 +207,7 @@ module.exports = new GraphQLObjectType({
     delete_users: {
       type: GraphQLString,
       args: {
-        id: { type: GraphQLString },
+        id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args) => deleteUsers(parent, args),
     },

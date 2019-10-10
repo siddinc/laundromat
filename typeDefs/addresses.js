@@ -1,12 +1,17 @@
-const { GraphQLObjectType, GraphQLString, GraphQLFloat } = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLFloat,
+  GraphQLNonNull,
+} = require('graphql');
 
 module.exports = new GraphQLObjectType({
   name: 'Addresses',
   fields: {
-    user_id: { type: GraphQLString },
+    user_id: { type: GraphQLNonNull(GraphQLString) },
     address: { type: GraphQLString },
     city: { type: GraphQLString },
-    latitude: { type: GraphQLFloat },
-    longitude: { type: GraphQLFloat },
+    latitude: { type: GraphQLNonNull(GraphQLFloat) },
+    longitude: { type: GraphQLNonNull(GraphQLFloat) },
   },
 });

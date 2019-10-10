@@ -1,4 +1,9 @@
-const { GraphQLObjectType, GraphQLList, GraphQLString } = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLList,
+  GraphQLString,
+  GraphQLNonNull,
+} = require('graphql');
 
 const AddressesType = require('./addresses');
 const RatingsType = require('./ratings');
@@ -10,10 +15,10 @@ const {
 module.exports = new GraphQLObjectType({
   name: 'Shops',
   fields: {
-    user_id: { type: GraphQLString },
-    name: { type: GraphQLString },
+    user_id: { type: GraphQLNonNull(GraphQLString) },
+    name: { type: GraphQLNonNull(GraphQLString) },
     address: {
-      type: AddressesType,
+      type: new GraphQLNonNull(AddressesType),
       resolve: (parent, args) => shopAddressRelationship(parent, args),
     },
     rating: {

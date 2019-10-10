@@ -1,4 +1,9 @@
-const { GraphQLObjectType, GraphQLString, GraphQLBoolean } = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLBoolean,
+  GraphQLNonNull,
+} = require('graphql');
 
 const AddressesType = require('./addresses');
 const ShopsType = require('./shops');
@@ -10,17 +15,17 @@ const {
 module.exports = new GraphQLObjectType({
   name: 'Users',
   fields: {
-    id: { type: GraphQLString },
-    name: { type: GraphQLString },
-    password: { type: GraphQLString },
-    email: { type: GraphQLString },
-    is_shop_owner: { type: GraphQLBoolean },
+    id: { type: GraphQLNonNull(GraphQLString) },
+    name: { type: GraphQLNonNull(GraphQLString) },
+    password: { type: GraphQLNonNull(GraphQLString) },
+    email: { type: GraphQLNonNull(GraphQLString) },
+    is_shop_owner: { type: GraphQLNonNull(GraphQLBoolean) },
     shop: {
       type: ShopsType,
       resolve: (parent, args) => userShopRelationship(parent, args),
     },
     address: {
-      type: AddressesType,
+      type: new GraphQLNonNull(AddressesType),
       resolve: (parent, args) => userAddressRelationship(parent, args),
     },
   },
