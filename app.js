@@ -28,7 +28,7 @@ app.use(cors());
 
 // GraphQL playground
 app.get('/playground', (req, res) => {
-  return res.sendFile(path.join(__dirname, '/templates/graphQLPlayground.html'));
+  return res.status(200).sendFile(path.join(__dirname, '/templates/graphQLPlayground.html'));
 });
 
 // routes
@@ -36,10 +36,7 @@ app.post('/signup', signUpUsers);
 
 app.post('/signin', signInUsers);
 
-app.use(
-  '/graphql',
-  verifyAuthentication,
-  graphqlHTTP((req, res, graphQLParams) => ({
+app.use('/graphql', verifyAuthentication, graphqlHTTP((req, res, graphQLParams) => ({
     schema,
     context: { user: res.locals.user },
     graphiql: false,

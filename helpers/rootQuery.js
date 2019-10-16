@@ -66,8 +66,8 @@ module.exports = new GraphQLObjectType({
     appointment_items_by_pk: {
       type: new GraphQLList(AppointmentItemsType),
       args: {
-        appointment_id: { type: GraphQLNonNull(GraphQLString) },
-        item_type_id: { type: GraphQLNonNull(GraphQLString) },
+        appointment_id: { type: GraphQLString },
+        item_type_id: { type: GraphQLString },
       },
       resolve: (parent, args) => getAppointmentItemsByPK(parent, args),
     },
@@ -116,8 +116,8 @@ module.exports = new GraphQLObjectType({
     ratings_by_pk: {
       type: new GraphQLList(RatingsType),
       args: {
-        user_id: { type: GraphQLNonNull(GraphQLString) },
-        shop_id: { type: GraphQLNonNull(GraphQLString) },
+        user_id: { type: GraphQLString },
+        shop_id: { type: GraphQLString },
       },
       resolve: (parent, args) => getRatingsByPK(parent, args),
     },
