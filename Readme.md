@@ -1,3 +1,3 @@
-#Laundromat GraphQL backend
+# Laundromat GraphQL backend
 
-##endpoint: http://localhost:3000/playground
+## endpoint: http://localhost:3000/playground
